@@ -141,7 +141,7 @@ for (idx, classification) in enumerate(train_y):
         train_y[idx] = 1
     else:
         train_y[idx] = 0
-
+print(train_y)
 # 4. Traing the Model
 metrics = classifier.fit(scaled_train_x, train_y, batch_size = batch_size, epochs = num_epochs, validation_split=0.1, callbacks=[PolyaxonKeras(experiment=experiment)])
 
