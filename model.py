@@ -137,7 +137,7 @@ classifier.compile(loss='binary_crossentropy',
               metrics=['accuracy'])
 
 for (idx, classification) in enumerate(train_y):
-    if classification == [1,1]:
+    if np.array_equal(classification, [1,1]):
         train_y[idx] = 1
     else:
         train_y[idx] = 0
