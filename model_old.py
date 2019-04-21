@@ -12,6 +12,19 @@ from polyaxon_client.tracking import Experiment, get_log_level, get_data_paths, 
 from polyaxon_client.tracking.contrib.keras import PolyaxonKeras
 import argparse
 
+def clearY(y):
+    clean_input = np.array([]).reshape(0, 1)
+    for data in y:
+        pos1 = data[0]
+        pos2 = data[1]
+        pos3 = data[2]
+        if  pos1 == 1 and pos2 == 0 and pos3 ==0:
+                clean_input = np.vstack((clean_input, [1]))
+        else:
+                clean_input = np.vstack((clean_input, [0]))
+    return clean_input
+
+
 def evaluate(true_y, pred_y):
     true_classes = []
     for array in true_y:
