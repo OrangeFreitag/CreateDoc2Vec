@@ -1,0 +1,28 @@
+version: 1
+
+kind: group
+
+hptuning:
+  concurrency: 10
+  random_search:
+    n_experiments: 1
+    
+  matrix:
+    lr:
+      range: 0.04:0.12:0.02
+    dropout:
+      range: 0.1:0.4:0.05
+    epochs:
+      range: 500:900:50
+
+build:
+  image: gw000/keras
+  build_steps:
+    - pip install polyaxon-client
+    - pip install pandas
+    - pip install scikit-learn
+    - pip install keras
+    - pip install tensorflow
+    
+run:
+  cmd: python model.py --learning_rate={{ 0.08 }} --batch_size={{ 200 }} --dropout={{ 0.4 }} --num_epochs={{ 800 }}

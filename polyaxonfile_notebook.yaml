@@ -1,0 +1,15 @@
+---
+version: 1
+
+kind: notebook
+
+build:
+  image: python:3
+  build_steps:
+    - pip3 install jupyter
+    - pip3 install polyaxon-client
+    - pip3 install pandas
+    - pip3 install scikit-learn
+    - pip3 install matplotlib
+    - pip3 install keras
+    - pip3 install tensorflow
