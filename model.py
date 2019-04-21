@@ -117,7 +117,7 @@ experiment.log_data_ref(data=train_y, data_name='train_y')
 experiment.log_data_ref(data=dev_test_x, data_name='dev_test_x')
 experiment.log_data_ref(data=dev_test_y, data_name='dev_test_y')
 
-# 2. Preporcessing
+# 2. Preporcessing  
 seed = 7
 np.random.seed(seed)
 sc = StandardScaler()
@@ -135,6 +135,12 @@ sgd = SGD(lr=learning_rate, decay=1e-6, momentum=0.9, nesterov=True)
 classifier.compile(loss='binary_crossentropy',
               optimizer=sgd,
               metrics=['accuracy'])
+
+for (idx, classification) in enumerate(train_y):
+    if classification == [1,1]:
+        train_y[idx] = 1
+    else:
+        train_y[idx] = 0
 
 # 4. Traing the Model
 metrics = classifier.fit(scaled_train_x, train_y, batch_size = batch_size, epochs = num_epochs, validation_split=0.1, callbacks=[PolyaxonKeras(experiment=experiment)])
