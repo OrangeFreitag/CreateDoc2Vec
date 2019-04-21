@@ -19,19 +19,27 @@ def evaluate(true_y, pred_y):
     for idx, prediction in enumerate(pred_y):
         # the students answer is correct in meaning and language
         # the system says the same -> accept
-        if true_classes[idx] == 1 and prediction == 1:
+        if true_classes[idx] == [1,1] and prediction == 1:
             CA += 1
         # the system says correct meaning wrong language -> reject
-        elif true_classes[idx] == 1 and prediction == 0:
+        elif true_classes[idx] == [1,1] and prediction == 0:
             FR += 1
 
         # students answer is correct in meaning and wrong in language
         #The system says the same -> reject
-        elif true_classes[idx] == 0 and prediction == 0:
+        elif true_classes[idx] == [0,1] and prediction == 0:
             CR += 1
         # the system says correct meaning and correct language -> accept
-        elif true_classes[idx] == 0 and prediction == 1:
+        elif true_classes[idx] == [0,1] and prediction == 1:
             PFA += 1
+
+        # students answer is incorrect in meaning and incorrect in language
+        # the system says the same -> reject
+        elif true_classes[idx] == [0,0] and prediction == 0:
+            CR += 1
+        # the system says correct meaning correct language -> accept
+        elif true_classes[idx] == [0,0] and prediction == 1: 
+            GFA += 1
 
     FA = PFA + k * GFA
     Correct = CA + FR
@@ -99,16 +107,10 @@ dropout = arguments.pop('dropout')
 num_epochs = arguments.pop('num_epochs')
 
 # 1. Load Data
-train_x = np.loadtxt("/data/shared-task/berkling_train_x_DFKI.csv" ,delimiter='\t', usecols=range(83)[1:-1], skiprows=1)
-train_y = np.loadtxt("/data/shared-task/berkling_train_y_DFKI.csv", delimiter='\t', usecols=range(2)[1:], skiprows=1)
-dev_test_x = np.loadtxt("/data/shared-task/berkling_test_x_DFKI.csv", delimiter='\t', usecols=range(83)[1:-1], skiprows=1)
-dev_test_y = np.loadtxt("/data/shared-task/berkling_test_y_DFKI.csv", delimiter='\t', usecols=range(2)[1:], skiprows=1)
-
-print('hello')
-print(train_y)
-print('hello')
-
-
+train_x = np.loadtxt("/data/shared-task/feat100_train_x.csv" ,delimiter='\t', usecols=range(11)[1:], skiprows=1)
+train_y = np.loadtxt("/data/shared-task/feat100_train_y.csv", delimiter='\t', usecols=range(3)[1:], skiprows=1)
+dev_test_x = np.loadtxt("/data/shared-task/feat100_test_x.csv", delimiter='\t', usecols=range(11)[1:], skiprows=1)
+dev_test_y = np.loadtxt("/data/shared-task/feat100_test_y.csv", delimiter='\t', usecols=range(3)[1:], skiprows=1)
 
 experiment.log_data_ref(data=train_x, data_name='train_x')
 experiment.log_data_ref(data=train_y, data_name='train_y')
@@ -124,9 +126,9 @@ scaled_dev_test_x = sc.transform(dev_test_x)
 
 # 3. Build the NN
 classifier = Sequential()
-classifier.add(Dense(81, activation='relu', input_dim=81))
+classifier.add(Dense(64, activation='relu', input_dim=10))
 #classifier.add(Dropout(0.2))
-classifier.add(Dense(81, activation='relu'))
+classifier.add(Dense(64, activation='relu'))
 classifier.add(Dropout(dropout))
 classifier.add(Dense(1, activation='sigmoid'))
 sgd = SGD(lr=learning_rate, decay=1e-6, momentum=0.9, nesterov=True)

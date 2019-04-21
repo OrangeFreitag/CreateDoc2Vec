@@ -16,4 +16,4 @@ build:
     - pip install paramiko
     
 run:
-  cmd: python createVector.py
+  cmd: python model.py --num_epochs=200
