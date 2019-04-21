@@ -19,26 +19,26 @@ def evaluate(true_y, pred_y):
     for idx, prediction in enumerate(pred_y):
         # the students answer is correct in meaning and language
         # the system says the same -> accept
-        if true_classes[idx] == [1,1] and prediction == 1:
+        if np.array_equal(true_classes[idx], [1,1]) and prediction == 1:
             CA += 1
         # the system says correct meaning wrong language -> reject
-        elif true_classes[idx] == [1,1] and prediction == 0:
+        elif np.array_equal(true_classes[idx], [1,1]) and prediction == 0:
             FR += 1
 
         # students answer is correct in meaning and wrong in language
         #The system says the same -> reject
-        elif true_classes[idx] == [0,1] and prediction == 0:
+        elif np.array_equal(true_classes[idx], [0,1]) and prediction == 0:
             CR += 1
         # the system says correct meaning and correct language -> accept
-        elif true_classes[idx] == [0,1] and prediction == 1:
+        elif np.array_equal(true_classes[idx], [0,1]) and prediction == 1:
             PFA += 1
 
         # students answer is incorrect in meaning and incorrect in language
         # the system says the same -> reject
-        elif true_classes[idx] == [0,0] and prediction == 0:
+        elif np.array_equal(true_classes[idx], [0,0]) and prediction == 0:
             CR += 1
         # the system says correct meaning correct language -> accept
-        elif true_classes[idx] == [0,0] and prediction == 1: 
+        elif np.array_equal(true_classes[idx], [0,0]) and prediction == 1: 
             GFA += 1
 
     FA = PFA + k * GFA
