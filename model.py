@@ -136,12 +136,15 @@ classifier.compile(loss='binary_crossentropy',
               optimizer=sgd,
               metrics=['accuracy'])
 
+true_y = []
 for (idx, classification) in enumerate(train_y):
     if np.array_equal(classification, [1,1]):
-        train_y[idx] = 1
+        true_y.append(1)
     else:
-        train_y[idx] = 0
-print(train_y)
+        true_y.append(0)
+
+train_y = np.reshape(true_y, (len(true_y), 1))
+
 # 4. Traing the Model
 metrics = classifier.fit(scaled_train_x, train_y, batch_size = batch_size, epochs = num_epochs, validation_split=0.1, callbacks=[PolyaxonKeras(experiment=experiment)])
 
