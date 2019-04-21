@@ -109,7 +109,7 @@ model = gensim.models.doc2vec.Doc2Vec.load(word2vec_model)
 model.init_sims(replace = True)
 print("Read model done!")
 
-with open(inputCsv, 'r') as input_csv_file:
+with open(inputCsv, 'r', encoding = "utf-8") as input_csv_file:
     reader = csv.reader(input_csv_file, delimiter = '\t', quotechar = '"')
     print("Starting parallel processing")
 
@@ -117,7 +117,7 @@ with open(inputCsv, 'r') as input_csv_file:
     #similarities.append(Parallel(n_jobs=20)(delayed(calc_similarities)(i) for i in input_lines))
     similarities.append(Parallel(n_jobs=20)(delayed(calc_similarities)(i) for i in reader))
 
-with open(outputFile, 'w+') as similrities_file:
+with open(outputFile, 'w+', encoding = "utf-8") as similrities_file:
     # write the vectors in new file
     print("Done with processing saving now.")
     for entries in similarities:
