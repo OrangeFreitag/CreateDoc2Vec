@@ -9,6 +9,7 @@ import csv
 import multiprocessing
 from joblib import Parallel, delayed
 
+outputFile = "/data/shared-task/similarities.csv"
 word2vec_model = "/data/shared-task/doc2vec_iter100.model"
 inputCsv = "/data/shared-task/domi_all_data.csv"
 grammar = "/data/shared-task/referenceGrammar_v2.8.6.xml"
@@ -108,15 +109,18 @@ model = gensim.models.doc2vec.Doc2Vec.load(word2vec_model)
 model.init_sims(replace = True)
 print("Read model done!")
 
-with open(inputCsv, 'r', encoding = "utf-8") as input_csv_file:
+with open(inputCsv, 'r') as input_csv_file:
     reader = csv.reader(input_csv_file, delimiter = '\t', quotechar = '"')
+    print("Starting parallel processing")
 
     # parallelized generation of the vectors 
     #similarities.append(Parallel(n_jobs=20)(delayed(calc_similarities)(i) for i in input_lines))
     similarities.append(Parallel(n_jobs=20)(delayed(calc_similarities)(i) for i in reader))
 
-with open("similarities.csv", 'w+') as similrities_file:
+with open(outputFile, 'w+') as similrities_file:
     # write the vectors in new file
+    print("Done with processing saving now.")
     for entries in similarities:
         for entry in entries:
             similrities_file.write(entry)
+    print("Saved")

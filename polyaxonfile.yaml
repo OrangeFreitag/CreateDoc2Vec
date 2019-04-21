@@ -13,6 +13,7 @@ build:
     - pip install gensim
     - pip install numpy
     - pip install joblib
+    - pip install paramiko
     
 run:
   cmd: python createVector.py
