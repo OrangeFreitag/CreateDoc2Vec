@@ -10,7 +10,7 @@ import multiprocessing
 from joblib import Parallel, delayed
 
 outputFile = "/data/shared-task/similarities.csv"
-word2vec_model = "/data/shared-task/doc2vec_iter100.model"
+word2vec_model = "/data/shared-task/doc2vec_iter150.model"
 inputCsv = "/data/shared-task/domi_all_data.csv"
 grammar = "/data/shared-task/referenceGrammar_v2.8.6.xml"
 
@@ -58,17 +58,21 @@ def get_sim(prompt, rec_result, grammar_dic, known_prompts, model):
 
 # calculate the similarities
 def calc_similarities(row):
-    global grammar_dic, known_prompts, model
-
+    print("Read XML grammar: " + grammar)
+    grammar_dic, known_prompts = read_grammar()
+    global model
+    
     x = np.array([]).reshape(0, num_feats)
     y = np.array([]).reshape(0, 1)
     
     if row:
+        print(row)
+        # id	prompt	waveId	transcription	recResult	language	meaning	edition	category
         line = ''
         prompt = row[1]
-        rec_result = row[3]
-        language = row[4]
-        meaning = row[5]
+        rec_result = row[4]
+        language = row[5]
+        meaning = row[6]
         distances = get_sim(prompt, rec_result, grammar_dic, known_prompts, model)
         if np.size(distances) < num_feats:
             distances = distances + [(min(distances) + max(distances)) / 2] * (num_feats - np.size(distances))
@@ -115,7 +119,7 @@ with open(inputCsv, 'r', encoding = "utf-8") as input_csv_file:
 
     # parallelized generation of the vectors 
     #similarities.append(Parallel(n_jobs=20)(delayed(calc_similarities)(i) for i in input_lines))
-    similarities.append(Parallel(n_jobs=20)(delayed(calc_similarities)(i) for i in reader))
+    similarities.append(Parallel(n_jobs=-1)(delayed(calc_similarities)(i) for i in reader))
 
 with open(outputFile, 'w+', encoding = "utf-8") as similrities_file:
     # write the vectors in new file

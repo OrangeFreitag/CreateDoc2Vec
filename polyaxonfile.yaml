@@ -3,7 +3,7 @@ version: 1
 kind: experiment
 
 build:
-  image: gw000/keras
+  image: tensorflow/tensorflow:latest-py3
   build_steps:
     - pip install polyaxon-client
     - pip install pandas
@@ -16,4 +16,4 @@ build:
     - pip install paramiko
     
 run:
-  cmd: python3 createVector.py
+  cmd: python createVector.py
