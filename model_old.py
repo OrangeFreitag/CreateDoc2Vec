@@ -24,7 +24,6 @@ def clearY(y):
                 clean_input = np.vstack((clean_input, [0]))
     return clean_input
 
-
 def evaluate(true_y, pred_y):
     true_classes = []
     for array in true_y:
@@ -115,7 +114,7 @@ if __name__ == '__main__':
 
     parser.add_argument(
         '--learning_rate',
-        default=0.1,
+        default=0.02,
         type=float)
     
     parser.add_argument(
@@ -156,7 +155,7 @@ scaled_dev_test_x = sc.transform(dev_test_x)
 # 3. Build the NN
 classifier = Sequential()
 classifier.add(Dense(64, activation='relu', input_dim=10))
-#classifier.add(Dropout(0.2))
+classifier.add(Dropout(0.2))
 classifier.add(Dense(64, activation='relu'))
 classifier.add(Dropout(dropout))
 classifier.add(Dense(1, activation='sigmoid'))
