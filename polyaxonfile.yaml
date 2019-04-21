@@ -10,6 +10,9 @@ build:
     - pip install scikit-learn
     - pip install keras
     - pip install tensorflow
+    - pip install gensim
+    - pip install numpy
+    - pip install joblib
     
 run:
-  cmd: python model.py --num_epochs=200
+  cmd: python createVector.py
