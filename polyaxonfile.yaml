@@ -16,4 +16,4 @@ build:
     - pip install paramiko
     
 run:
-  cmd: python model.py --num_epochs=200
+  cmd: python model_old.py --num_epochs=600
