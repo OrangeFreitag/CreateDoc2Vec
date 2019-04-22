@@ -109,8 +109,8 @@ num_epochs = arguments.pop('num_epochs')
 # 1. Load Data
 train_x = np.loadtxt("/data/shared-task/feat80_train_x.csv" ,delimiter='\t', usecols=range(16)[1:], skiprows=1)
 train_y = np.loadtxt("/data/shared-task/feat80_train_y.csv", delimiter='\t', usecols=range(3)[1:], skiprows=1)
-dev_test_x = np.loadtxt("/data/shared-task/feat80_test_x.csv", delimiter='\t', usecols=range(16)[1:], skiprows=1)
-dev_test_y = np.loadtxt("/data/shared-task/feat80_test_y.csv", delimiter='\t', usecols=range(3)[1:], skiprows=1)
+dev_test_x = np.loadtxt("/data/shared-task/st1_test_x.csv", delimiter='\t', usecols=range(16)[1:], skiprows=1)
+dev_test_y = np.loadtxt("/data/shared-task/st1_test_y.csv", delimiter='\t', usecols=range(3)[1:], skiprows=1)
 
 experiment.log_data_ref(data=train_x, data_name='train_x')
 experiment.log_data_ref(data=train_y, data_name='train_y')
