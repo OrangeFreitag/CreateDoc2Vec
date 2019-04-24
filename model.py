@@ -107,10 +107,10 @@ dropout = arguments.pop('dropout')
 num_epochs = arguments.pop('num_epochs')
 
 # 1. Load Data
-train_x = np.loadtxt("/data/shared-task/feat100fix_train_x.csv" ,delimiter='\t', usecols=range(11)[1:], skiprows=1)
-train_y = np.loadtxt("/data/shared-task/feat100fix_train_y.csv", delimiter='\t', usecols=range(3)[1:], skiprows=1)
-dev_test_x = np.loadtxt("/data/shared-task/feat100fix_test_x.csv", delimiter='\t', usecols=range(11)[1:], skiprows=1)
-dev_test_y = np.loadtxt("/data/shared-task/feat100fix_test_y.csv", delimiter='\t', usecols=range(3)[1:], skiprows=1)
+train_x = np.loadtxt("/data/shared-task/feat15csuk_train_x.csv" ,delimiter='\t', usecols=range(16)[1:], skiprows=1)
+train_y = np.loadtxt("/data/shared-task/feat15csuk_train_y.csv", delimiter='\t', usecols=range(3)[1:], skiprows=1)
+dev_test_x = np.loadtxt("/data/shared-task/feat15csuk_test_x.csv", delimiter='\t', usecols=range(16)[1:], skiprows=1)
+dev_test_y = np.loadtxt("/data/shared-task/feat15csuk_test_y.csv", delimiter='\t', usecols=range(3)[1:], skiprows=1)
 
 experiment.log_data_ref(data=train_x, data_name='train_x')
 experiment.log_data_ref(data=train_y, data_name='train_y')
@@ -126,8 +126,8 @@ scaled_dev_test_x = sc.transform(dev_test_x)
 
 # 3. Build the NN
 classifier = Sequential()
-classifier.add(Dense(64, activation='relu', input_dim=10))
-#classifier.add(Dropout(0.2))
+classifier.add(Dense(64, activation='relu', input_dim=15))
+classifier.add(Dropout(dropout))
 classifier.add(Dense(64, activation='relu'))
 classifier.add(Dropout(dropout))
 classifier.add(Dense(1, activation='sigmoid'))
